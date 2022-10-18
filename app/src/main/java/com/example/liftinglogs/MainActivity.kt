@@ -3,7 +3,6 @@ package com.example.liftinglogs
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,7 +12,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.runtime.saveable.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
@@ -26,14 +24,19 @@ class WorkoutListViewModel(
     val workouts: List<Workout>
         get() = workoutList
 
+    init {
+        if (workoutList.size == 0) {
+            workoutList.add(Workout("", id = 0))
+        }
+    }
+
     fun remove(item: Workout) {
         workoutList.remove(item)
     }
 
     fun update(id: Int, item: Workout) {
         println("Updating workout $id: ${item.name}")
-        var w = workouts.find { it.id == id }
-        w = item
+        workouts.find { it.id == id }
     }
 
     fun add(item: Workout) {
@@ -133,7 +136,7 @@ fun WorkoutList(workouts: List<Workout>, updateFn: (Int, Workout) -> Unit) {
 
 @Composable
 fun WorkoutsScreen(workoutsViewModel: WorkoutListViewModel = viewModel()) {
-    var workouts = workoutsViewModel.workouts
+    val workouts = workoutsViewModel.workouts
     val addItemFn = { workoutsViewModel.add(Workout("", id = workouts.size)) }
 
     Scaffold(
