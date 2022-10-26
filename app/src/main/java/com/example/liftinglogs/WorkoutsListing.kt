@@ -114,7 +114,7 @@ fun WorkoutsScreen(workoutsViewModel: WorkoutListViewModel = viewModel()) {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Daily Log") })
+            TopAppBar(title = { DateDisplay() })
         },
         floatingActionButton = {
             FloatingActionButton(onClick = addItemFn ) {
