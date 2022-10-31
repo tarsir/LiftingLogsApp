@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    WorkoutsScreen()
+                    Navigation()
                 }
             }
         }
@@ -38,5 +38,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    WorkoutsScreen()
+    Navigation()
 }

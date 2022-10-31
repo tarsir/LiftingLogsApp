@@ -5,6 +5,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 
 class WorkoutListViewModel(
     val workoutList: SnapshotStateList<Workout> = emptyList<Workout>().toMutableStateList(),
@@ -108,14 +111,22 @@ fun WorkoutList(workouts: List<Workout>, updateFn: (Int, Workout) -> Unit) {
 }
 
 @Composable
-fun WorkoutsScreen(workoutsViewModel: WorkoutListViewModel = viewModel()) {
+fun WorkoutsScreen(goBackHome: () -> Unit, workoutsViewModel: WorkoutListViewModel = viewModel()) {
     val workouts = workoutsViewModel.workouts
     val addItemFn = { workoutsViewModel.add(Workout("", id = workouts.size)) }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { DateDisplay() })
+            TopAppBar(
+                title = { DateDisplay() },
+                navigationIcon = {
+                    IconButton(onClick = { goBackHome() }) {
+                        Icon(Icons.Rounded.ArrowBack, "")
+                    }
+                }
+            )
         },
+
         floatingActionButton = {
             FloatingActionButton(onClick = addItemFn ) {
                 Text("+")
